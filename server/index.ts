@@ -1,5 +1,7 @@
 import { Server } from "socket.io";
 import { createServer } from "http";
+import { readFileSync, existsSync } from "fs";
+import { join } from "path";
 import type { ClientToServerEvents, ServerToClientEvents, GameClass, Position, Player } from "../shared/types";
 import { state, addPlayer, removePlayer } from "./state";
 import { startSpawning } from "./spawner";
@@ -8,7 +10,34 @@ import { handleAttackMonster, handleAttackBoss, handleCombatAction } from "./com
 import { handlePlayerMovement } from "./movement";
 import { v4 as uuidv4 } from "uuid";
 
-const httpServer = createServer();
+const httpServer = createServer((req, res) => {
+  const url = req.url || "/";
+  let filePath = join(import.meta.dir, "../client/dist", url === "/" ? "index.html" : url);
+
+  if (!existsSync(filePath) || url.indexOf('.') === -1) {
+    filePath = join(import.meta.dir, "../client/dist/index.html");
+  }
+
+  try {
+    const content = readFileSync(filePath);
+    const ext = filePath.split('.').pop();
+    const contentType = {
+      'html': 'text/html',
+      'js': 'application/javascript',
+      'css': 'text/css',
+      'png': 'image/png',
+      'jpg': 'image/jpeg',
+      'svg': 'image/svg+xml'
+    }[ext || ''] || 'text/plain';
+
+    res.writeHead(200, { 'Content-Type': contentType });
+    res.end(content);
+  } catch (e) {
+    res.writeHead(404);
+    res.end("Not Found");
+  }
+});
+
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
   cors: {
     origin: "*",

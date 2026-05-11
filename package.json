@@ -1,0 +1,10 @@
+{
+  "name": "gps-mmo-rpg-root",
+  "private": true,
+  "scripts": {
+    "install:all": "bun install && cd client && bun install && cd ../server && bun install",
+    "build:client": "cd client && bun run build",
+    "start": "bun run build:client && cd server && bun index.ts",
+    "dev": "cd server && bun index.ts"
+  }
+}

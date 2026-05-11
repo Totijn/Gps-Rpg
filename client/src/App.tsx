@@ -109,6 +109,20 @@ export default function App() {
     }
   };
 
+  const moveDebug = (dir: 'up' | 'down' | 'left' | 'right') => {
+    if (!myPos) return;
+    const step = 0.0001;
+    let nextPos = { ...myPos };
+    if (dir === 'up') nextPos.latitude += step;
+    if (dir === 'down') nextPos.latitude -= step;
+    if (dir === 'left') nextPos.longitude -= step;
+    if (dir === 'right') nextPos.longitude += step;
+    setMyPos(nextPos);
+    if (socket && joined) {
+      socket.emit('updatePosition', nextPos);
+    }
+  };
+
   if (!myPos) return (
     <div className="loading">
       Detecting GPS...
@@ -143,6 +157,15 @@ export default function App() {
       <PartyOverlay socket={socket!} gameState={gameState} />
 
       {currentCombat && <CombatUI combat={currentCombat} socket={socket!} />}
+
+      {debugMode && (
+        <div className="d-pad">
+          <div className="d-btn" style={{ gridArea: 'up' }} onClick={() => moveDebug('up')}>↑</div>
+          <div className="d-btn" style={{ gridArea: 'left' }} onClick={() => moveDebug('left')}>←</div>
+          <div className="d-btn" style={{ gridArea: 'right' }} onClick={() => moveDebug('right')}>→</div>
+          <div className="d-btn" style={{ gridArea: 'down' }} onClick={() => moveDebug('down')}>↓</div>
+        </div>
+      )}
 
       <div style={{ position: 'absolute', bottom: 10, left: 10, zIndex: 2000 }}>
         <button

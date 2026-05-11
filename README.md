@@ -8,25 +8,27 @@ A real-time, location-based MMORPG built with React, Leaflet, Bun, and Socket.io
 - [Bun](https://bun.sh/) installed on your machine.
 
 ### Installation & Launch
-1. **Install Dependencies:**
+1. **Install All Dependencies:**
    ```bash
-   bun install
+   bun run install:all
    ```
 
-2. **Start the Backend:**
+2. **Start the Game (One Command):**
    ```bash
-   cd server
-   bun index.ts
+   bun start
    ```
 
-3. **Start the Frontend:**
-   ```bash
-   cd client
-   bun run dev
-   ```
+3. **Access the Game:**
+   - **On PC:** Open `http://localhost:3001` in your browser.
+   - **On Mobile:** Open `http://YOUR_PC_IP:3001` in your mobile browser.
+     *Tip: Make sure your phone and PC are on the same WiFi.*
 
-4. **Access the Game:**
-   Open `http://localhost:3000` in your browser.
+---
+
+## 📱 Mobile Accessibility
+- **Responsive UI:** The HUD and Combat screens adjust for smaller screens.
+- **PWA Ready:** On Android/iOS, you can use "Add to Home Screen" for a full-screen app experience.
+- **On-Screen D-Pad:** Use the virtual joystick in Debug Mode for movement without real GPS.
 
 ---
 
