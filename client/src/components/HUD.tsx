@@ -1,11 +1,12 @@
 import React from 'react';
-import type { Player } from '../../../shared/types';
+import type { Player, Socket } from '../../../shared/types';
 
 interface Props {
   player: Player;
+  socket: Socket;
 }
 
-export const HUD: React.FC<Props> = ({ player }) => {
+export const HUD: React.FC<Props> = ({ player, socket }) => {
   return (
     <div className="hud">
       <div>NAME: {player.name}</div>
@@ -23,9 +24,18 @@ export const HUD: React.FC<Props> = ({ player }) => {
       </div>
       <div style={{ marginTop: '10px' }}>
         INVENTORY: {player.inventory.length} items
-        <ul style={{ paddingLeft: '15px' }}>
-          {player.inventory.slice(0, 5).map((item, i) => (
-            <li key={i}>{item.name}</li>
+        <ul style={{ paddingLeft: '0', listStyle: 'none' }}>
+          {player.inventory.slice(0, 5).map((item) => (
+            <li key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '5px' }}>
+              <span>{item.name}</span>
+              <button
+                className="pixel-button"
+                onClick={() => socket.emit('useItem', item.id)}
+                style={{ fontSize: '8px', padding: '2px 4px', margin: 0 }}
+              >
+                Use
+              </button>
+            </li>
           ))}
         </ul>
       </div>

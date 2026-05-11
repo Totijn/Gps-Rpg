@@ -21,11 +21,21 @@ export interface Player {
   xp: number;
   hp: number;
   maxHp: number;
+  attack: number;
+  defense: number;
+  skills: Skill[];
   position: Position;
   inventory: Item[];
   partyId?: string;
   lastPosition?: Position;
   totalDistanceMoved: number;
+}
+
+export interface Skill {
+  name: string;
+  damageMultiplier: number;
+  cooldown: number; // in turns
+  lastUsedTurn?: number;
 }
 
 export interface Monster {
@@ -43,6 +53,15 @@ export interface Boss extends Monster {
   unleashesAt: number; // timestamp
 }
 
+export interface CombatInstance {
+  id: string;
+  players: Player[];
+  enemy: Monster | Boss;
+  turn: number;
+  logs: string[];
+  isOver: boolean;
+}
+
 export interface GameState {
   players: Record<string, Player>;
   monsters: Record<string, Monster>;
@@ -54,6 +73,9 @@ export interface ServerToClientEvents {
   bossAnnounced: (boss: Boss) => void;
   message: (msg: string) => void;
   lootDropped: (item: Item) => void;
+  combatStarted: (combat: CombatInstance) => void;
+  combatUpdate: (combat: CombatInstance) => void;
+  combatEnded: (result: { victory: boolean, rewards?: Item[], xpGained?: number }) => void;
 }
 
 export interface ClientToServerEvents {
@@ -64,4 +86,5 @@ export interface ClientToServerEvents {
   inviteToParty: (playerId: string) => void;
   acceptPartyInvite: (partyId: string) => void;
   useItem: (itemId: string) => void;
+  combatAction: (combatId: string, action: 'attack' | 'skill' | 'flee') => void;
 }

@@ -86,3 +86,86 @@ body {
 .leaflet-container {
   background: #333;
 }
+
+/* Combat UI */
+.combat-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.combat-screen {
+  width: 80%;
+  max-width: 600px;
+  background: #222;
+  border: 8px solid #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.enemy-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pixel-art-monster {
+  font-size: 64px;
+  margin-bottom: 10px;
+}
+
+.hp-bar-container {
+  width: 200px;
+  height: 15px;
+  border: 2px solid #fff;
+  background: #000;
+  margin: 5px 0;
+}
+
+.hp-bar {
+  height: 100%;
+}
+
+.player-side {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.player-mini-card {
+  border: 2px solid #fff;
+  padding: 5px;
+  min-width: 150px;
+}
+
+.player-mini-card.dead {
+  opacity: 0.5;
+  background: #400;
+}
+
+.combat-logs {
+  background: #000;
+  border: 2px solid #555;
+  padding: 10px;
+  height: 100px;
+  overflow-y: auto;
+  font-size: 10px;
+  color: #0f0;
+}
+
+.combat-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

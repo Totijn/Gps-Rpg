@@ -14,7 +14,9 @@ export function awardXp(io: Server<any, ServerToClientEvents>, playerId: string,
     player.xp -= nextLevelXp;
     player.maxHp += 20;
     player.hp = player.maxHp;
-    io.to(playerId).emit("message", `Congratulations! You reached level ${player.level}!`);
+    player.attack += 5;
+    player.defense += 2;
+    io.to(playerId).emit("message", `Congratulations! You reached level ${player.level}! Stats increased!`);
   }
 }
 

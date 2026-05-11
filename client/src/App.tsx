@@ -8,6 +8,7 @@ import { ClassSelection } from './components/ClassSelection';
 import { MapMarkers } from './components/MapMarkers';
 import { BossCountdown } from './components/BossCountdown';
 import { PartyOverlay } from './components/PartyOverlay';
+import { CombatUI } from './components/CombatUI';
 
 const SOCKET_URL = window.location.hostname === 'localhost'
   ? 'http://localhost:3001'
@@ -25,6 +26,31 @@ export default function App() {
   const [me, setMe] = useState<Player | null>(null);
   const [joined, setJoined] = useState(false);
   const [myPos, setMyPos] = useState<Position | null>(null);
+  const [debugMode, setDebugMode] = useState(false);
+  const [currentCombat, setCurrentCombat] = useState<CombatInstance | null>(null);
+
+  useEffect(() => {
+    if (debugMode && myPos) {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        const step = 0.0001; // Approx 10 meters
+        let nextPos = { ...myPos };
+        if (e.key === 'w' || e.key === 'ArrowUp') nextPos.latitude += step;
+        if (e.key === 's' || e.key === 'ArrowDown') nextPos.latitude -= step;
+        if (e.key === 'a' || e.key === 'ArrowLeft') nextPos.longitude -= step;
+        if (e.key === 'd' || e.key === 'ArrowRight') nextPos.longitude += step;
+
+        if (nextPos.latitude !== myPos.latitude || nextPos.longitude !== myPos.longitude) {
+          setMyPos(nextPos);
+          if (socket && joined) {
+            socket.emit('updatePosition', nextPos);
+          }
+        }
+      };
+
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [debugMode, myPos, socket, joined]);
 
   useEffect(() => {
     const s = io(SOCKET_URL);
@@ -39,7 +65,19 @@ export default function App() {
 
     s.on('message', (msg) => {
       console.log('Server message:', msg);
-      // Could add a toast notification here
+    });
+
+    s.on('combatStarted', (combat) => {
+      setCurrentCombat(combat);
+    });
+
+    s.on('combatUpdate', (combat) => {
+      setCurrentCombat(combat);
+    });
+
+    s.on('combatEnded', (result) => {
+      alert(result.victory ? `Victory! XP Gained: ${result.xpGained}` : 'Defeat...');
+      setCurrentCombat(null);
     });
 
     return () => {
@@ -48,7 +86,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
+    if ("geolocation" in navigator && !debugMode) {
       const watchId = navigator.geolocation.watchPosition(
         (pos) => {
           const newPos = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
@@ -71,7 +109,21 @@ export default function App() {
     }
   };
 
-  if (!myPos) return <div className="loading">Detecting GPS...</div>;
+  if (!myPos) return (
+    <div className="loading">
+      Detecting GPS...
+      <button
+        className="pixel-button"
+        onClick={() => {
+          setMyPos({ latitude: 52.52, longitude: 13.405 });
+          setDebugMode(true);
+        }}
+        style={{ marginTop: '20px' }}
+      >
+        Force Debug Mode (Berlin)
+      </button>
+    </div>
+  );
   if (!joined) return <ClassSelection onJoin={handleJoin} />;
 
   return (
@@ -86,9 +138,21 @@ export default function App() {
           {gameState && <MapMarkers gameState={gameState} socket={socket!} />}
         </MapContainer>
       </div>
-      {me && <HUD player={me} />}
+      {me && <HUD player={me} socket={socket!} />}
       <BossCountdown gameState={gameState} />
       <PartyOverlay socket={socket!} gameState={gameState} />
+
+      {currentCombat && <CombatUI combat={currentCombat} socket={socket!} />}
+
+      <div style={{ position: 'absolute', bottom: 10, left: 10, zIndex: 2000 }}>
+        <button
+          className="pixel-button"
+          onClick={() => setDebugMode(!debugMode)}
+          style={{ fontSize: '8px', padding: '5px' }}
+        >
+          {debugMode ? "Disable Debug Move" : "Enable Debug Move (WASD)"}
+        </button>
+      </div>
     </div>
   );
 }
