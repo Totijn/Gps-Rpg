@@ -1,0 +1,33 @@
+# Ignore everything in node_modules
+node_modules/
+**/node_modules/
+
+# Ignore all cache directories
+.cache/
+**/.cache/
+
+# Build outputs
+dist/
+**/dist/
+build/
+**/build/
+
+# Logs
+*.log
+server.log
+client.log
+
+# OS files
+.DS_Store
+
+# Test/Verification artifacts
+verification/
+verify_state.ts
+verify_game.py
+test_mmo.ts
+server/test_mmo.ts
+
+# Bun/Node specifics
+bun.lockb
+package-lock.json
+EOF
