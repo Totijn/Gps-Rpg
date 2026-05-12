@@ -22,6 +22,14 @@ export default function App() {
   const [myPos, setMyPos] = useState<Position | null>(null);
   const [debugMode, setDebugMode] = useState(false);
   const [currentCombat, setCurrentCombat] = useState<any | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    });
+  }, []);
 
   useEffect(() => {
     if (debugMode && myPos) {
@@ -136,6 +144,16 @@ export default function App() {
 
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
 
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) {
+       alert("To install: Use 'Add to Home Screen' in your browser menu (Chrome: Install App, iOS Safari: Share -> Add to Home Screen)");
+       return;
+    }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') setDeferredPrompt(null);
+  };
+
   return (
     <div className="game-container">
       <div className="pixel-map-wrapper">
@@ -153,7 +171,7 @@ export default function App() {
         >
           <Marker latitude={myPos.latitude} longitude={myPos.longitude}>
             <div className="player-marker">
-              <div className="player-sprite">🚶</div>
+              <div className="player-sprite"></div>
               <div className="player-name-tag">{me?.name || 'You'}</div>
             </div>
           </Marker>
@@ -168,7 +186,7 @@ export default function App() {
                 socket?.emit('attackMonster', monster.id);
               }}
             >
-              <div className="pixel-monster-marker">👾</div>
+              <div className="pixel-monster-marker"></div>
             </Marker>
           ))}
 
@@ -182,7 +200,7 @@ export default function App() {
                 socket?.emit('attackBoss', boss.id);
               }}
             >
-              <div className={`pixel-boss-marker ${boss.status}`}>👹</div>
+              <div className={`pixel-boss-marker ${boss.status}`}></div>
             </Marker>
           ))}
 
@@ -191,7 +209,7 @@ export default function App() {
              return (
                <Marker key={p.id} latitude={p.position.latitude} longitude={p.position.longitude}>
                  <div className="other-player-marker">
-                   <div className="player-sprite">👤</div>
+                   <div className="player-sprite" style={{ filter: 'hue-rotate(90deg)' }}></div>
                    <div className="player-name-tag">{p.name}</div>
                  </div>
                </Marker>
@@ -205,9 +223,9 @@ export default function App() {
           <button
             className="pixel-button"
             style={{ fontSize: '8px', padding: '5px' }}
-            onClick={() => alert("To install: Use 'Add to Home Screen' in your browser menu (Chrome: Install App, iOS Safari: Share -> Add to Home Screen)")}
+            onClick={handleInstallClick}
           >
-            📱 Install App
+            📱 {deferredPrompt ? "Click to Install" : "How to Install"}
           </button>
         </div>
       )}

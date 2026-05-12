@@ -91,7 +91,10 @@ body {
 }
 
 .player-sprite {
-  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  background: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/25.png') center/contain no-repeat;
+  image-rendering: pixelated;
   filter: drop-shadow(0 0 2px #000);
 }
 
@@ -105,13 +108,19 @@ body {
 }
 
 .pixel-monster-marker {
-  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  background: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/129.png') center/contain no-repeat;
+  image-rendering: pixelated;
   cursor: pointer;
   animation: bounce 2s infinite;
 }
 
 .pixel-boss-marker {
-  font-size: 40px;
+  width: 64px;
+  height: 64px;
+  background: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/130.png') center/contain no-repeat;
+  image-rendering: pixelated;
   cursor: pointer;
 }
 

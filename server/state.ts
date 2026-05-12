@@ -1,7 +1,10 @@
 import type { GameState, Player, Monster, Boss } from "../shared/types";
+import { loadState } from "./persistence";
+
+const savedPlayers = loadState();
 
 export const state: GameState = {
-  players: {},
+  players: savedPlayers,
   monsters: {},
   bosses: {}
 };

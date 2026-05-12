@@ -4,6 +4,7 @@ import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import type { ClientToServerEvents, ServerToClientEvents, GameClass, Position, Player } from "../shared/types";
 import { state, addPlayer, removePlayer } from "./state";
+import { saveState } from "./persistence";
 import { startSpawning } from "./spawner";
 import { scheduleBoss } from "./bossEvents";
 import { handleAttackMonster, handleAttackBoss, handleCombatAction } from "./combat";
@@ -147,6 +148,11 @@ io.on("connection", (socket) => {
 setInterval(() => {
   io.emit("gameStateUpdate", state);
 }, 1000);
+
+// Persistence loop
+setInterval(() => {
+  saveState(state.players);
+}, 10000);
 
 startSpawning();
 scheduleBoss(io);

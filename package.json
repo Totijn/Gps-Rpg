@@ -5,6 +5,7 @@
   "scripts": {
     "install:all": "bun install && cd client && bun install",
     "build": "cd client && bun run build",
+    "compile": "bun build server/index.ts --compile --outfile game-server",
     "start": "bun run start.ts",
     "start:desktop": "electron .",
     "server": "bun run server/index.ts",

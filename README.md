@@ -2,38 +2,29 @@
 
 A retro-style, location-based MMORPG. Walk in the real world to move your character, defeat monsters, and band together for epic boss raids.
 
-## 🚀 Quick Start (One-Button Experience)
+## ⚡ One-Click Play (Recommended)
 
-To install everything and start the game, just run:
+To start the game immediately without manual setup:
 
+### 🐧 Linux / 🍎 macOS
 ```bash
-bun start
+./play.sh
 ```
 
-This will:
-1. Install all dependencies.
-2. Build the game client.
-3. Launch the game server.
-
-### 🖥️ Desktop App (PC)
-Run the following to launch the game as a standalone Desktop App:
+### 🪟 Windows
+Double-click `play.bat` or run:
 ```bash
-npm run start:desktop
+play.bat
 ```
-This opens the game in its own window—no browser needed.
 
-### 📱 Mobile App (Phone)
-1. Open the game once in your mobile browser via the IP address shown in the terminal.
-2. Click the **"Install App"** button in the top-right corner.
-3. The game will be added to your home screen and function as a standalone app.
+This will automatically install any missing tools, build the game, and launch the server.
 
-### 🔗 How to Play
-- **PC:** Use **WASD** or the arrow keys to move.
-- **Mobile:** Use the **On-Screen D-Pad** to move.
+---
 
 ## 🎮 Features
 - **Classes:** Warrior, Mage, Archer with unique skills.
 - **Quests:** Track objectives and earn bonus XP.
+- **Persistence:** Your character level and items are saved automatically!
 - **Chat:** Global real-time chat to coordinate with other players.
 - **3D Map:** A clean, tilted perspective similar to Pokemon Go.
 - **Bosses:** Massive multiplayer raids every 5 minutes.
@@ -42,6 +33,6 @@ This opens the game in its own window—no browser needed.
 ## 🛠 Tech Stack
 - **Engine:** Bun
 - **Frontend:** React + MapLibre GL (3D)
-- **Backend:** Socket.io (Real-time)
+- **Backend:** Socket.io (Real-time) + JSON Persistence
 - **App Wrapper:** Electron (Desktop) + PWA (Mobile)
-- **Style:** Pixel-art CSS
+- **Style:** Pixel-art CSS with Pokemon-style sprites.
