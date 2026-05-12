@@ -2,9 +2,15 @@
   "name": "gps-mmo-rpg-root",
   "private": true,
   "scripts": {
-    "install:all": "bun install && cd client && bun install && cd ../server && bun install",
-    "build:client": "cd client && bun run build",
-    "start": "bun run build:client && cd server && bun index.ts",
-    "dev": "cd server && bun index.ts"
+    "install:all": "bun install && cd client && bun install",
+    "build": "cd client && bun run build",
+    "start": "bun run start.ts",
+    "server": "bun run server/index.ts",
+    "dev": "bun run server/index.ts"
+  },
+  "dependencies": {
+    "geolib": "^3.3.14",
+    "socket.io": "^4.8.3",
+    "uuid": "^11.0.3"
   }
 }

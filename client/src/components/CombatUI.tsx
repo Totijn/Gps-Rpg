@@ -1,5 +1,6 @@
 import React from 'react';
-import type { CombatInstance, Socket } from '../shared/types';
+import type { CombatInstance } from '../../../shared/types';
+import { Socket } from 'socket.io-client';
 
 interface CombatUIProps {
   combat: CombatInstance;
@@ -7,8 +8,6 @@ interface CombatUIProps {
 }
 
 export const CombatUI: React.FC<CombatUIProps> = ({ combat, socket }) => {
-  const me = combat.players.find(p => p.hp > 0); // Simplified for now
-
   return (
     <div className="combat-overlay">
       <div className="combat-screen">

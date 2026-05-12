@@ -1,0 +1,37 @@
+{
+  "version": 8,
+  "name": "Simplified RPG World",
+  "sources": {
+    "carto": {
+      "type": "vector",
+      "tiles": ["https://tiles.basemaps.cartocdn.com/vectors/carto.streets/v1/{z}/{x}/{y}.pbf"]
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#76ba1b"
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "carto",
+      "source-layer": "water",
+      "paint": {
+        "fill-color": "#a2d2ff"
+      }
+    },
+    {
+      "id": "park",
+      "type": "fill",
+      "source": "carto",
+      "source-layer": "park",
+      "paint": {
+        "fill-color": "#52ad1a"
+      }
+    }
+  ]
+}

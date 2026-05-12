@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import Map, { Marker } from 'react-map-gl/maplibre';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import { io, Socket } from 'socket.io-client';
 import type { ClientToServerEvents, ServerToClientEvents, GameState, Player, Position, GameClass } from '../../shared/types';
 import { HUD } from './components/HUD';
 import { ClassSelection } from './components/ClassSelection';
-import { MapMarkers } from './components/MapMarkers';
 import { BossCountdown } from './components/BossCountdown';
 import { PartyOverlay } from './components/PartyOverlay';
 import { CombatUI } from './components/CombatUI';
@@ -14,12 +13,6 @@ const SOCKET_URL = window.location.hostname === 'localhost'
   ? 'http://localhost:3001'
   : `http://${window.location.hostname}:3001`;
 
-function ChangeView({ center }: { center: [number, number] }) {
-  const map = useMap();
-  map.setView(center);
-  return null;
-}
-
 export default function App() {
   const [socket, setSocket] = useState<Socket<ServerToClientEvents, ClientToServerEvents> | null>(null);
   const [gameState, setGameState] = useState<GameState | null>(null);
@@ -27,7 +20,7 @@ export default function App() {
   const [joined, setJoined] = useState(false);
   const [myPos, setMyPos] = useState<Position | null>(null);
   const [debugMode, setDebugMode] = useState(false);
-  const [currentCombat, setCurrentCombat] = useState<CombatInstance | null>(null);
+  const [currentCombat, setCurrentCombat] = useState<any | null>(null);
 
   useEffect(() => {
     if (debugMode && myPos) {
@@ -143,14 +136,65 @@ export default function App() {
   return (
     <div className="game-container">
       <div className="pixel-map-wrapper">
-        <MapContainer center={[myPos.latitude, myPos.longitude]} zoom={18} style={{ height: '100vh', width: '100vw' }}>
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            className="pixelated-tiles"
-          />
-          <ChangeView center={[myPos.latitude, myPos.longitude]} />
-          {gameState && <MapMarkers gameState={gameState} socket={socket!} />}
-        </MapContainer>
+        <Map
+          initialViewState={{
+            longitude: myPos.longitude,
+            latitude: myPos.latitude,
+            zoom: 18,
+            pitch: 45
+          }}
+          style={{ width: '100vw', height: '100vh' }}
+          mapStyle="/map-style.json"
+          latitude={myPos.latitude}
+          longitude={myPos.longitude}
+        >
+          <Marker latitude={myPos.latitude} longitude={myPos.longitude}>
+            <div className="player-marker">
+              <div className="player-sprite">🚶</div>
+              <div className="player-name-tag">{me?.name || 'You'}</div>
+            </div>
+          </Marker>
+
+          {gameState && Object.values(gameState.monsters).map(monster => (
+            <Marker
+              key={monster.id}
+              latitude={monster.position.latitude}
+              longitude={monster.position.longitude}
+              onClick={(e) => {
+                e.originalEvent.stopPropagation();
+                socket?.emit('attackMonster', monster.id);
+              }}
+            >
+              <div className="pixel-monster-marker">👾</div>
+            </Marker>
+          ))}
+
+          {gameState && Object.values(gameState.bosses).map(boss => (
+            <Marker
+              key={boss.id}
+              latitude={boss.position.latitude}
+              longitude={boss.position.longitude}
+              onClick={(e) => {
+                e.originalEvent.stopPropagation();
+                socket?.emit('attackBoss', boss.id);
+              }}
+            >
+              <div className={`pixel-boss-marker ${boss.status}`}>👹</div>
+            </Marker>
+          ))}
+
+          {gameState && Object.values(gameState.players).map(p => {
+             if (p.id === socket?.id) return null;
+             return (
+               <Marker key={p.id} latitude={p.position.latitude} longitude={p.position.longitude}>
+                 <div className="other-player-marker">
+                   <div className="player-sprite">👤</div>
+                   <div className="player-name-tag">{p.name}</div>
+                 </div>
+               </Marker>
+             );
+          })}
+        </Map>
       </div>
       {me && <HUD player={me} socket={socket!} />}
       <BossCountdown gameState={gameState} />

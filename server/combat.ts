@@ -150,7 +150,7 @@ function finishCombat(io: Server<any, ServerToClientEvents>, combat: CombatInsta
     combat.players.forEach(p => io.to(p.id).emit("combatEnded", { victory: false }));
   }
 
-  delete activeCombats[combatId];
+  delete activeCombats[combat.id];
 }
 
 function dropLoot(io: Server<any, ServerToClientEvents>, playerId: string): Item[] {

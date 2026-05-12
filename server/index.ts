@@ -11,7 +11,7 @@ import { handlePlayerMovement } from "./movement";
 import { v4 as uuidv4 } from "uuid";
 
 const httpServer = createServer((req, res) => {
-  const url = req.url || "/";
+  const url = (req.url || "/").split('?')[0];
   let filePath = join(import.meta.dir, "../client/dist", url === "/" ? "index.html" : url);
 
   if (!existsSync(filePath) || url.indexOf('.') === -1) {

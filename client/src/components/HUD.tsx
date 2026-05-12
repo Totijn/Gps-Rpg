@@ -1,5 +1,6 @@
 import React from 'react';
-import type { Player, Socket } from '../../../shared/types';
+import type { Player } from '../../../shared/types';
+import { Socket } from 'socket.io-client';
 
 interface Props {
   player: Player;
