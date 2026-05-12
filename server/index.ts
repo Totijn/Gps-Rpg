@@ -62,7 +62,11 @@ io.on("connection", (socket) => {
       skills: [],
       position,
       inventory: [],
-      totalDistanceMoved: 0
+      totalDistanceMoved: 0,
+      equipment: {},
+      quests: [
+        { id: 'q1', name: 'First Steps', description: 'Defeat 1 monster', targetCount: 1, currentCount: 0, rewardXp: 50, completed: false }
+      ]
     };
 
     if (gameClass === 'Warrior') {
@@ -97,6 +101,13 @@ io.on("connection", (socket) => {
 
   socket.on("combatAction", (combatId, action) => {
     handleCombatAction(io, socket.id, combatId, action);
+  });
+
+  socket.on("sendChat", (text) => {
+    const player = state.players[socket.id];
+    if (player && text.trim()) {
+      io.emit("chatMessage", { sender: player.name, text: text.trim() });
+    }
   });
 
   socket.on("useItem", (itemId) => {

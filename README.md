@@ -1,82 +1,47 @@
-# GPS Pixel-Art MMORPG
+# 🌍 Pixel GPS MMORPG
 
-A real-time, location-based MMORPG built with React, Leaflet, Bun, and Socket.io. Walk in the real world to explore a fantasy realm filled with monsters, bosses, and loot.
+A retro-style, location-based MMORPG. Walk in the real world to move your character, defeat monsters, and band together for epic boss raids.
 
-## 🚀 Quick Start
+## 🚀 Quick Start (One-Button Experience)
 
-### Prerequisites
-- [Bun](https://bun.sh/) installed on your machine.
+To install everything and start the game, just run:
 
-### Installation & Launch
-1. **Install All Dependencies:**
-   ```bash
-   bun run install:all
-   ```
+```bash
+bun start
+```
 
-2. **Start the Game (One Command):**
-   ```bash
-   bun start
-   ```
+This will:
+1. Install all dependencies.
+2. Build the game client.
+3. Launch the game server.
 
-3. **Access the Game:**
-   - **On PC:** Open `http://localhost:3001` in your browser.
-   - **On Mobile:** Open `http://YOUR_PC_IP:3001` in your mobile browser.
-     *Tip: Make sure your phone and PC are on the same WiFi.*
+### 🖥️ Desktop App (PC)
+Run the following to launch the game as a standalone Desktop App:
+```bash
+npm run start:desktop
+```
+This opens the game in its own window—no browser needed.
 
----
+### 📱 Mobile App (Phone)
+1. Open the game once in your mobile browser via the IP address shown in the terminal.
+2. Click the **"Install App"** button in the top-right corner.
+3. The game will be added to your home screen and function as a standalone app.
 
-## 📱 Mobile Accessibility
-- **Responsive UI:** The HUD and Combat screens adjust for smaller screens.
-- **PWA Ready:** On Android/iOS, you can use "Add to Home Screen" for a full-screen app experience.
-- **On-Screen D-Pad:** Use the virtual joystick in Debug Mode for movement without real GPS.
+### 🔗 How to Play
+- **PC:** Use **WASD** or the arrow keys to move.
+- **Mobile:** Use the **On-Screen D-Pad** to move.
 
----
+## 🎮 Features
+- **Classes:** Warrior, Mage, Archer with unique skills.
+- **Quests:** Track objectives and earn bonus XP.
+- **Chat:** Global real-time chat to coordinate with other players.
+- **3D Map:** A clean, tilted perspective similar to Pokemon Go.
+- **Bosses:** Massive multiplayer raids every 5 minutes.
+- **Progression:** Level up, collect potions, and move in the real world to get stronger.
 
-## 🎮 Game Mechanics
-
-### 🌍 Movement & Exploration
-- **GPS Integration:** The game uses your real-world coordinates. As you move, your character moves on the map.
-- **Walk to Progress:** Every 10 meters you walk in real life grants you 1 XP.
-- **Debug Mode:** For developers, use the **"Enable Debug Move"** button to toggle WASD/Arrow key movement.
-
-### ⚔️ Class System
-Choose from three distinct classes, each with unique starting stats and skills:
-- **Warrior:** High HP and Defense. Uses *Shield Bash* to stun and damage.
-- **Mage:** High Attack but low HP. Devastates foes with *Fireball*.
-- **Archer:** Balanced stats. High fire rate with *Steady Shot*.
-
-### 🥊 Instance-Based Combat
-- Click a monster (👾) or a Boss (👹) on the map to engage.
-- Combat opens a dedicated **Combat Instance**.
-- **Actions:** Attack, use a Class Skill, or Flee.
-- **Cooldowns:** Class skills have turn-based cooldowns.
-
-### 👥 Parties & Social
-- **Band Together:** Click on nearby players to invite them to your party.
-- **Shared Combat:** If you are in a party and within 100m of a monster, party members are automatically pulled into the combat instance to help.
-- **Boss Events:** Global bosses appear every 5 minutes. They have a massive HP pool and require multiple players to take down.
-
-### 💎 Loot & Progression
-- **Level Up:** Gain XP from combat and movement. Leveling up increases your Max HP, Attack, and Defense.
-- **Item Drops:** Defeating enemies has a chance to drop **Health Potions**.
-- **Inventory:** Use potions from your HUD to restore HP during or between fights.
-
----
-
-## 🛠 Technical Architecture
-
-- **Shared Types (`/shared`):** Single source of truth for interfaces and socket event definitions used by both client and server.
-- **Backend (`/server`):**
-  - `state.ts`: Centralized in-memory game state.
-  - `combat.ts`: Manages turn-based combat logic and instances.
-  - `spawner.ts`: Handles procedural monster generation near active players.
-- **Frontend (`/client`):**
-  - `react-leaflet`: Renders the game world using OpenStreetMap tiles.
-  - `Socket.io`: Handles bi-directional real-time communication.
-  - Pixel-Art CSS: Retro aesthetic using custom fonts and pixelated rendering.
-
----
-
-## 👨‍💻 Developer Notes
-- **Testing GPS:** Use Chrome DevTools -> Three dots -> More tools -> Sensors to simulate different Geolocation coordinates.
-- **Force Debug:** If GPS detection is slow, use the "Force Debug Mode" button on the loading screen to start in Berlin.
+## 🛠 Tech Stack
+- **Engine:** Bun
+- **Frontend:** React + MapLibre GL (3D)
+- **Backend:** Socket.io (Real-time)
+- **App Wrapper:** Electron (Desktop) + PWA (Mobile)
+- **Style:** Pixel-art CSS

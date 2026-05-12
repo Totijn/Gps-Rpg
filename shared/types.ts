@@ -29,6 +29,21 @@ export interface Player {
   partyId?: string;
   lastPosition?: Position;
   totalDistanceMoved: number;
+  equipment: {
+    weapon?: Item;
+    armor?: Item;
+  };
+  quests: Quest[];
+}
+
+export interface Quest {
+  id: string;
+  name: string;
+  description: string;
+  targetCount: number;
+  currentCount: number;
+  rewardXp: number;
+  completed: boolean;
 }
 
 export interface Skill {
@@ -76,6 +91,7 @@ export interface ServerToClientEvents {
   combatStarted: (combat: CombatInstance) => void;
   combatUpdate: (combat: CombatInstance) => void;
   combatEnded: (result: { victory: boolean, rewards?: Item[], xpGained?: number }) => void;
+  chatMessage: (msg: { sender: string, text: string }) => void;
 }
 
 export interface ClientToServerEvents {
@@ -87,4 +103,5 @@ export interface ClientToServerEvents {
   acceptPartyInvite: (partyId: string) => void;
   useItem: (itemId: string) => void;
   combatAction: (combatId: string, action: 'attack' | 'skill' | 'flee') => void;
+  sendChat: (message: string) => void;
 }

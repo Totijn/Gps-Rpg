@@ -8,6 +8,7 @@ import { ClassSelection } from './components/ClassSelection';
 import { BossCountdown } from './components/BossCountdown';
 import { PartyOverlay } from './components/PartyOverlay';
 import { CombatUI } from './components/CombatUI';
+import { Chat } from './components/Chat';
 
 const SOCKET_URL = window.location.hostname === 'localhost'
   ? 'http://localhost:3001'
@@ -133,6 +134,8 @@ export default function App() {
   );
   if (!joined) return <ClassSelection onJoin={handleJoin} />;
 
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
+
   return (
     <div className="game-container">
       <div className="pixel-map-wrapper">
@@ -196,11 +199,25 @@ export default function App() {
           })}
         </Map>
       </div>
+
+      {!isStandalone && (
+        <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 3000 }}>
+          <button
+            className="pixel-button"
+            style={{ fontSize: '8px', padding: '5px' }}
+            onClick={() => alert("To install: Use 'Add to Home Screen' in your browser menu (Chrome: Install App, iOS Safari: Share -> Add to Home Screen)")}
+          >
+            📱 Install App
+          </button>
+        </div>
+      )}
+
       {me && <HUD player={me} socket={socket!} />}
       <BossCountdown gameState={gameState} />
       <PartyOverlay socket={socket!} gameState={gameState} />
 
       {currentCombat && <CombatUI combat={currentCombat} socket={socket!} />}
+      <Chat socket={socket!} />
 
       {debugMode && (
         <div className="d-pad">

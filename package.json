@@ -1,10 +1,12 @@
 {
   "name": "gps-mmo-rpg-root",
   "private": true,
+  "main": "electron-main.js",
   "scripts": {
     "install:all": "bun install && cd client && bun install",
     "build": "cd client && bun run build",
     "start": "bun run start.ts",
+    "start:desktop": "electron .",
     "server": "bun run server/index.ts",
     "dev": "bun run server/index.ts"
   },
@@ -12,5 +14,9 @@
     "geolib": "^3.3.14",
     "socket.io": "^4.8.3",
     "uuid": "^11.0.3"
+  },
+  "devDependencies": {
+    "electron": "^42.0.1",
+    "electron-is-dev": "^3.0.1"
   }
 }

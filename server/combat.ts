@@ -135,6 +135,21 @@ function finishCombat(io: Server<any, ServerToClientEvents>, combat: CombatInsta
 
   if (victory) {
     const xp = combat.enemy.level * 20;
+      combat.players.forEach(p => {
+        const fullPlayer = state.players[p.id];
+        if (fullPlayer) {
+          fullPlayer.quests.forEach(q => {
+            if (!q.completed) {
+              q.currentCount++;
+              if (q.currentCount >= q.targetCount) {
+                q.completed = true;
+                awardXp(io, p.id, q.rewardXp);
+                io.to(p.id).emit("message", `Quest Completed: ${q.name}!`);
+              }
+            }
+          });
+        }
+      });
     combat.players.forEach(p => {
       awardXp(io, p.id, xp);
       const items = dropLoot(io, p.id);

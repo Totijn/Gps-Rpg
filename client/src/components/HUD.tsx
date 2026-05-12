@@ -23,6 +23,18 @@ export const HUD: React.FC<Props> = ({ player, socket }) => {
       <div style={{ marginTop: '10px' }}>
         DISTANCE: {Math.floor(player.totalDistanceMoved)}m
       </div>
+
+      {player.quests.length > 0 && (
+        <div style={{ marginTop: '10px', color: '#ffeb3b' }}>
+          QUESTS:
+          {player.quests.map(q => !q.completed && (
+            <div key={q.id} style={{ fontSize: '7px' }}>
+              • {q.name}: {q.currentCount}/{q.targetCount}
+            </div>
+          ))}
+        </div>
+      )}
+
       <div style={{ marginTop: '10px' }}>
         INVENTORY: {player.inventory.length} items
         <ul style={{ paddingLeft: '0', listStyle: 'none' }}>

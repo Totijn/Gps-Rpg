@@ -8,9 +8,17 @@ interface CombatUIProps {
 }
 
 export const CombatUI: React.FC<CombatUIProps> = ({ combat, socket }) => {
+  const [isShaking, setIsShaking] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsShaking(true);
+    const t = setTimeout(() => setIsShaking(false), 200);
+    return () => clearTimeout(t);
+  }, [combat.logs.length]);
+
   return (
     <div className="combat-overlay">
-      <div className="combat-screen">
+      <div className={`combat-screen ${isShaking ? 'shake' : ''}`}>
         <div className="enemy-side">
           <div className="pixel-art-monster">👾</div>
           <div className="monster-info">
