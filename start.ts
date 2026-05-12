@@ -31,7 +31,10 @@ async function run() {
   console.log(`🔗 Local:   http://localhost:${port}?dev=true`);
   console.log(`📱 Mobile:  http://${ip}:${port}?dev=true`);
   console.log('');
-  console.log('Use WASD or the D-pad on mobile to move.');
+  console.log('🌈 CHILD-FRIENDLY TIPS:');
+  console.log('1. On your phone? Click the "Install" button in the game!');
+  console.log('2. Want a PC App? Type "bun run dist:win" in a new window.');
+  console.log('3. Walking outside is the best way to level up! 🏃‍♂️');
   console.log('-----------------------------------------');
 
   spawn('bun', ['run', 'server/index.ts'], { stdio: 'inherit' });
