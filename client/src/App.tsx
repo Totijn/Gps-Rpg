@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Map, { Marker } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { io, Socket } from 'socket.io-client';
@@ -9,6 +9,8 @@ import { BossCountdown } from './components/BossCountdown';
 import { PartyOverlay } from './components/PartyOverlay';
 import { CombatUI } from './components/CombatUI';
 import { Chat } from './components/Chat';
+import { GameAudio } from './utils/audio';
+import { Minimap } from './components/Minimap';
 
 const SOCKET_URL = window.location.hostname === 'localhost'
   ? 'http://localhost:3001'
@@ -54,6 +56,8 @@ export default function App() {
     }
   }, [debugMode, myPos, socket, joined]);
 
+  const prevLevel = useRef<number>(1);
+
   useEffect(() => {
     const s = io(SOCKET_URL);
     setSocket(s);
@@ -61,7 +65,12 @@ export default function App() {
     s.on('gameStateUpdate', (state) => {
       setGameState(state);
       if (s.id && state.players[s.id]) {
-        setMe(state.players[s.id]);
+        const player = state.players[s.id];
+        setMe(player);
+        if (player.level > prevLevel.current) {
+          GameAudio.playLevelUp();
+          prevLevel.current = player.level;
+        }
       }
     });
 
@@ -230,7 +239,8 @@ export default function App() {
         </div>
       )}
 
-      {me && <HUD player={me} socket={socket!} />}
+      {me && gameState && <HUD player={me} socket={socket!} gameState={gameState} />}
+      {gameState && myPos && <Minimap gameState={gameState} myPos={myPos} />}
       <BossCountdown gameState={gameState} />
       <PartyOverlay socket={socket!} gameState={gameState} />
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { CombatInstance } from '../../../shared/types';
 import { Socket } from 'socket.io-client';
+import { GameAudio } from '../utils/audio';
 
 interface CombatUIProps {
   combat: CombatInstance;
@@ -12,6 +13,7 @@ export const CombatUI: React.FC<CombatUIProps> = ({ combat, socket }) => {
 
   React.useEffect(() => {
     setIsShaking(true);
+    GameAudio.playHit();
     const t = setTimeout(() => setIsShaking(false), 200);
     return () => clearTimeout(t);
   }, [combat.logs.length]);

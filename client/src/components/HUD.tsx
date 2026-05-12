@@ -1,13 +1,15 @@
 import React from 'react';
-import type { Player } from '../../../shared/types';
+import type { Player, GameState } from '../../../shared/types';
 import { Socket } from 'socket.io-client';
+import { Leaderboard } from './Leaderboard';
 
 interface Props {
   player: Player;
   socket: Socket;
+  gameState: GameState;
 }
 
-export const HUD: React.FC<Props> = ({ player, socket }) => {
+export const HUD: React.FC<Props> = ({ player, socket, gameState }) => {
   return (
     <div className="hud">
       <div>NAME: {player.name}</div>
@@ -22,6 +24,10 @@ export const HUD: React.FC<Props> = ({ player, socket }) => {
       </div>
       <div style={{ marginTop: '10px' }}>
         DISTANCE: {Math.floor(player.totalDistanceMoved)}m
+      </div>
+
+      <div style={{ marginTop: '10px', borderTop: '1px solid #555', paddingTop: '5px' }}>
+        <Leaderboard players={gameState.players} />
       </div>
 
       {player.quests.length > 0 && (
