@@ -38,6 +38,17 @@ If you want to run the code yourself:
 
 ---
 
+## 🛠️ How to update the App (For Developers)
+
+If you are the owner and want to make a new download file for everyone:
+
+1.  Make sure you have finished your changes.
+2.  Double-click `release.bat`.
+3.  Type a version name like `v1.0.0` and press Enter.
+4.  Wait a few minutes! GitHub will build the new app and put it in the **Releases** section for you! 🚀
+
+---
+
 ## 🎮 What can you do in this game?
 -   **Be a Hero:** Pick from a strong **Warrior**, a powerful **Mage**, or a fast **Archer**!
 -   **Level Up:** The more you walk outside, the stronger you get!
