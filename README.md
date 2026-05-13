@@ -2,11 +2,13 @@
 
 Welcome, Adventurer! This is a real-life game where you become a hero by walking around outside! 🚶‍♂️✨
 
-## 📦 Download the Game (Easiest Way!)
+## 📦 One-Click Download (Recommended)
 
-If you just want to play, you don't need to do any coding!
+If you just want to play, click the link below to get the game!
 
-1.  Go to the **[Releases](https://github.com/user/repo/releases)** section on the right side of this page.
+### [👉 CLICK HERE TO DOWNLOAD THE LATEST APP 👈](../../releases/latest)
+
+1.  Click the link above.
 2.  Download the file ending in `.exe` (for example: `GPS-MMORPG-Setup-1.0.0.exe`).
 3.  Double-click it to install the game on your computer. 🎮
 
@@ -29,7 +31,7 @@ Want to take the game outside? It's like magic!
 If you want to run the code yourself:
 
 1.  **Install Bun:** Go to [bun.sh](https://bun.sh) and follow the instructions.
-2.  **Download Code:** Clone this repo: `git clone https://github.com/yourname/gps-mmo-rpg.git`
+2.  **Download Code:** `git clone` this repository.
 3.  **Launch:**
     -   **Windows:** Double-click `play.bat`
     -   **Mac/Linux:** Run `./play.sh` in your terminal.
