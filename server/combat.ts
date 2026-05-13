@@ -170,7 +170,9 @@ function finishCombat(io: Server<any, ServerToClientEvents>, combat: CombatInsta
 
 function dropLoot(io: Server<any, ServerToClientEvents>, playerId: string): Item[] {
   const items: Item[] = [];
-  if (Math.random() > 0.4) {
+  const roll = Math.random();
+
+  if (roll > 0.4) {
     const item: Item = {
       id: uuidv4(),
       name: "Health Potion",
@@ -181,5 +183,18 @@ function dropLoot(io: Server<any, ServerToClientEvents>, playerId: string): Item
     state.players[playerId].inventory.push(item);
     items.push(item);
   }
+
+  if (roll > 0.9) {
+    const item: Item = {
+      id: uuidv4(),
+      name: "Rare Candy",
+      type: "consumable",
+      effect: 1000, // Instant Level Up logic in useItem
+      rarity: "rare"
+    };
+    state.players[playerId].inventory.push(item);
+    items.push(item);
+  }
+
   return items;
 }

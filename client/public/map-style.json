@@ -16,6 +16,24 @@
       }
     },
     {
+      "id": "grass-pattern-layer",
+      "type": "fill",
+      "source": {
+        "type": "geojson",
+        "data": {
+          "type": "Feature",
+          "properties": {},
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]]
+          }
+        }
+      },
+      "paint": {
+        "fill-pattern": "grass-pattern"
+      }
+    },
+    {
       "id": "water",
       "type": "fill",
       "source": "carto",

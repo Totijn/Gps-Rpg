@@ -173,6 +173,12 @@ export default function App() {
             zoom: 18,
             pitch: 45
           }}
+          onLoad={(e) => {
+            const map = e.target;
+            map.loadImage('/grass.png').then((image: any) => {
+               if (!map.hasImage('grass-pattern')) map.addImage('grass-pattern', image.data);
+            });
+          }}
           style={{ width: '100vw', height: '100vh' }}
           mapStyle="/map-style.json"
           latitude={myPos.latitude}

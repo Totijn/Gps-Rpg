@@ -9,6 +9,7 @@ import { startSpawning } from "./spawner";
 import { scheduleBoss } from "./bossEvents";
 import { handleAttackMonster, handleAttackBoss, handleCombatAction } from "./combat";
 import { handlePlayerMovement } from "./movement";
+import { awardXp } from "./progression";
 import { v4 as uuidv4 } from "uuid";
 
 const httpServer = createServer((req, res) => {
@@ -120,9 +121,15 @@ io.on("connection", (socket) => {
 
     const item = player.inventory[itemIdx];
     if (item.type === 'consumable') {
-      player.hp = Math.min(player.maxHp, player.hp + (item.effect || 0));
+      if (item.name === 'Rare Candy') {
+         // Instant Level Up
+         awardXp(io, player.id, player.level * 100);
+         io.to(socket.id).emit("message", `Used Rare Candy! leveled up!`);
+      } else {
+        player.hp = Math.min(player.maxHp, player.hp + (item.effect || 0));
+        io.to(socket.id).emit("message", `Used ${item.name}. Restored ${item.effect} HP.`);
+      }
       player.inventory.splice(itemIdx, 1);
-      io.to(socket.id).emit("message", `Used ${item.name}. Restored ${item.effect} HP.`);
     }
   });
 
