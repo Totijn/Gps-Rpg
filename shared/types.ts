@@ -77,10 +77,17 @@ export interface CombatInstance {
   isOver: boolean;
 }
 
+export interface Decoration {
+  id: string;
+  type: 'tree' | 'rock';
+  position: Position;
+}
+
 export interface GameState {
   players: Record<string, Player>;
   monsters: Record<string, Monster>;
   bosses: Record<string, Boss>;
+  decorations: Decoration[];
 }
 
 export interface ServerToClientEvents {

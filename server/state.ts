@@ -6,7 +6,8 @@ const savedPlayers = loadState();
 export const state: GameState = {
   players: savedPlayers,
   monsters: {},
-  bosses: {}
+  bosses: {},
+  decorations: []
 };
 
 export function addPlayer(player: Player) {

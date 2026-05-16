@@ -8,6 +8,8 @@ If you just want to play, click the link below to get the game!
 
 ### [👉 CLICK HERE TO DOWNLOAD THE LATEST APP 👈](../../releases/latest)
 
+*(Note: If the link above says "Not Found", it means the owner hasn't clicked the "Build" button yet! You can still play by following the "Source" instructions below.)*
+
 1.  Click the link above.
 2.  Download the file ending in `.exe` (for example: `GPS-MMORPG-Setup-1.0.0.exe`).
 3.  Double-click it to install the game on your computer. 🎮

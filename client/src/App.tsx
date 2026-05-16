@@ -25,6 +25,7 @@ export default function App() {
   const [debugMode, setDebugMode] = useState(false);
   const [currentCombat, setCurrentCombat] = useState<any | null>(null);
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showLevelUp, setShowLevelUp] = useState(false);
 
   useEffect(() => {
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -69,6 +70,8 @@ export default function App() {
         setMe(player);
         if (player.level > prevLevel.current) {
           GameAudio.playLevelUp();
+          setShowLevelUp(true);
+          setTimeout(() => setShowLevelUp(false), 2000);
           prevLevel.current = player.level;
         }
       }
@@ -230,6 +233,12 @@ export default function App() {
                </Marker>
              );
           })}
+
+          {gameState && gameState.decorations.map(dec => (
+            <Marker key={dec.id} latitude={dec.position.latitude} longitude={dec.position.longitude}>
+               <div className={`pixel-decoration ${dec.type}`}></div>
+            </Marker>
+          ))}
         </Map>
       </div>
 
@@ -252,6 +261,7 @@ export default function App() {
 
       {currentCombat && <CombatUI combat={currentCombat} socket={socket!} />}
       <Chat socket={socket!} />
+      {showLevelUp && <div className="level-up-anim">LEVEL UP!</div>}
 
       {debugMode && (
         <div className="d-pad">

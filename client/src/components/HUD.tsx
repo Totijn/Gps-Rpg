@@ -26,6 +26,11 @@ export const HUD: React.FC<Props> = ({ player, socket, gameState }) => {
         DISTANCE: {Math.floor(player.totalDistanceMoved)}m
       </div>
 
+      <div style={{ marginTop: '5px', fontSize: '7px', display: 'flex', gap: '10px' }}>
+         <span>ATK: {player.attack}</span>
+         <span>DEF: {player.defense}</span>
+      </div>
+
       <div style={{ marginTop: '10px', borderTop: '1px solid #555', paddingTop: '5px' }}>
         <Leaderboard players={gameState.players} />
       </div>
