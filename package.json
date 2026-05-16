@@ -16,11 +16,15 @@
     "appId": "com.gpsmmorpg.app",
     "productName": "GPS MMORPG",
     "files": [
-      "dist/**/*",
+      "client/dist/**/*",
       "electron-main.js",
       "package.json",
-      "server/**/*"
+      "server/**/*",
+      "shared/**/*"
     ],
+    "directories": {
+      "output": "release"
+    },
     "win": {
       "target": "nsis"
     }
